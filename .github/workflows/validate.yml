@@ -1,0 +1,68 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Syntax-check scripts
+        run: |
+          python -m py_compile scripts/detect_lanes.py
+          python -m py_compile scripts/prioritize_scenarios.py
+          python -m py_compile scripts/derive_exit_criteria.py
+
+      - name: Validate SKILL.md has required frontmatter fields
+        run: |
+          python - <<'EOF'
+          import re, sys
+
+          with open("SKILL.md") as f:
+              content = f.read()
+
+          match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
+          if not match:
+              print("ERROR: No YAML frontmatter found in SKILL.md")
+              sys.exit(1)
+
+          frontmatter = match.group(1)
+          required = [
+              "name:",
+              "description:",
+              "dispatcher-layer:",
+              "dispatcher-lifecycle:",
+              "dispatcher-category:",
+              "dispatcher-capabilities:",
+              "dispatcher-risk:",
+              "dispatcher-writes-files:",
+          ]
+          missing = [f for f in required if f not in frontmatter]
+          if missing:
+              print(f"ERROR: Missing frontmatter fields: {missing}")
+              sys.exit(1)
+
+          print("SKILL.md frontmatter OK")
+          EOF
+
+      - name: Check examples exist
+        run: |
+          for f in \
+            examples/webapp-checkout-intake.md \
+            examples/webapp-checkout-strategy.md \
+            examples/rest-api-intake.md \
+            examples/rest-api-strategy.md; do
+            [ -f "$f" ] || { echo "Missing example: $f"; exit 1; }
+          done
+          echo "All example files present"

@@ -1,0 +1,26 @@
+{
+  "skill_name": "test-strategy-skill",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "webapp-search-flag-rollout",
+      "prompt": "We're rolling out a new server-side search relevance algorithm behind a 5% feature flag on our marketing site (Next.js 15, TypeScript, hosted on Vercel). The change touches the search result ranking only — query parsing and UI are untouched. Risk is medium-ish: bad relevance = lost engagement but not lost revenue directly. We have ~6 ACs from the product team and the analysis already flagged two risks: 'flag bucketing leaks across logged-in vs anon users' and 'p95 search latency creeps up under the new ranker'. No regulated data. Mode should be standard. The codebase is at ./apps/marketing. Plan the testing — what levels, what lanes, what's manual, what are the exit criteria? Write the strategy to ./strategy.md and ./strategy.json.",
+      "expected_output": "A strategy doc that: (1) picks unit + integration + system levels, skips contract (no API surface) and acceptance is light; (2) chooses Playwright as the E2E lane via stack override; (3) includes performance lane for the p95 risk; (4) skips a11y as the UI is unchanged or downgrades it to smoke-only; (5) emits exit criteria via derive_exit_criteria.py at standard+medium; (6) routes UAT and exploratory to manual track; (7) flags the flag-bucketing risk as a high-priority scenario via prioritize_scenarios.py; (8) cites drivers for every decision; (9) writes both strategy.md and strategy.json files.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "billing-accrual-batch-critical",
+      "prompt": "I need a test strategy for our monthly billing accrual job. It's a Python/Airflow DAG that reads from Stripe + an internal usage warehouse, computes accrued revenue per customer, and writes a monthly close to Snowflake that gets pulled into the GL. SOX-relevant. Last month a bug under-accrued $400k. Risk class: critical. HITL: full. Two-hour completion window. We don't have data-batch-testing-skill installed yet but we use Great Expectations and dbt tests. The analysis report flagged: late-arriving usage events (R1), currency conversion rounding at month boundary (R2), null customer_id mapping (R3). Produce the strategy.",
+      "expected_output": "Strategy doc that: (1) selects unit + integration + contract + system + acceptance levels; (2) flags data-batch-testing-skill as 'unavailable' via detect_lanes.py and routes the data tests to Great Expectations + dbt fallback with an Open Question; (3) emits full-mode exit criteria with the audit_trail and evidence_pack extras; (4) shows all 5 HITL gates active; (5) scores R1/R2/R3 as Critical or High via prioritize_scenarios.py; (6) includes OAT and auditor-review in the manual track; (7) flags compliance/SOX explicitly; (8) no UI/a11y/responsive lanes; (9) writes strategy.md + strategy.json.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "internal-tool-low-risk-lite",
+      "prompt": "Quick one: I'm adding a 'export to CSV' button to our internal admin dashboard (React + a thin Express backend, JS). It exports a list of users from an admin-only page. Only 4 people use this tool. Risk is genuinely low. I want lite mode — I don't want six lanes and 200 cases for what's basically a JSON-to-CSV serializer. Acceptance criteria are 3 lines: button exists, click downloads file, file contains the visible rows. Just give me a sensible plan.",
+      "expected_output": "Strategy doc that: (1) keeps scope deliberately narrow — unit + smoke system only, skips integration/contract/perf/security/a11y as not warranted at low risk; (2) selects the unit lane via stack-aware-unit-testing-skill (JS); (3) optionally chooses a single Playwright happy-path or skips E2E and uses a manual smoke check; (4) emits lite-mode exit criteria (80% pass rate, no Critical, no High limit) via derive_exit_criteria.py; (5) shows ONLY phase 13 HITL gate; (6) heal cap = 2; (7) manual track may be empty or just one manual smoke check; (8) does NOT over-engineer — this is the test of whether risk class genuinely constrains breadth.",
+      "files": []
+    }
+  ]
+}

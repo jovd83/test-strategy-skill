@@ -1,0 +1,82 @@
+[
+  {
+    "query": "ok so before sprint planning tomorrow i need to figure out what testing to actually do for the new search redirect feature - we've got like 8 ACs from product, risk feels medium-ish but the auth integration is hairy. can you put together a plan?",
+    "should_trigger": true
+  },
+  {
+    "query": "team's asking what coverage we should aim for on the payments service rewrite. mostly java/spring, two external partners depend on the API. need to figure out levels, tools, exit criteria before we start writing tests",
+    "should_trigger": true
+  },
+  {
+    "query": "we have a critical batch job that reconciles ledger data nightly - SOX-relevant. need to design the testing approach including audit trail and HITL gates",
+    "should_trigger": true
+  },
+  {
+    "query": "i need to scope test effort for the new dashboard redesign - what should we test, what tools, what's manual vs automated, when are we done?",
+    "should_trigger": true
+  },
+  {
+    "query": "given this AC list and risk analysis report, what's a sensible test strategy? we're at risk class high, want standard hitl mode",
+    "should_trigger": true
+  },
+  {
+    "query": "what test levels apply for a low-risk internal admin tool? trying to right-size the test plan, not overdo it",
+    "should_trigger": true
+  },
+  {
+    "query": "PR for the new pricing engine is up. before i start writing tests can you tell me which levels and types make sense, and split between automation vs manual?",
+    "should_trigger": true
+  },
+  {
+    "query": "compliance is asking for a test strategy doc with exit criteria and HITL gates for the new model serving endpoint - it's customer-facing high-risk",
+    "should_trigger": true
+  },
+  {
+    "query": "scope the testing for our ETL pipeline before we kick off implementation - it pulls from 4 sources into snowflake",
+    "should_trigger": true
+  },
+  {
+    "query": "lifecycle-skill phase 4 - i need the strategy artifact built from the intake + analysis report",
+    "should_trigger": true
+  },
+  {
+    "query": "review this acceptance criteria for testability - is it clear enough to test against, or does it have ambiguities we should pin down with product first?",
+    "should_trigger": false
+  },
+  {
+    "query": "design test cases for this pricing decision table - boundary values, equivalence classes, the works. output should be ready to paste into TestRail",
+    "should_trigger": false
+  },
+  {
+    "query": "convert these manual test cases to Gherkin and export to Xray import format please",
+    "should_trigger": false
+  },
+  {
+    "query": "audit the existing test cases for the checkout flow - any anti-patterns, weak assertions, missing coverage on negative paths?",
+    "should_trigger": false
+  },
+  {
+    "query": "the integration tests are flaky after the playwright upgrade - can you debug what's happening with the auth setup?",
+    "should_trigger": false
+  },
+  {
+    "query": "we got pinged by the SOC2 auditor - need to design HITL controls and pause/resume flows for our AI agent before next review cycle",
+    "should_trigger": false
+  },
+  {
+    "query": "perf test this /search endpoint - aiming for 100 RPS sustained with p95 under 300ms, ramp from 0 to peak over 5 minutes",
+    "should_trigger": false
+  },
+  {
+    "query": "the test_user_lookup case is failing intermittently in CI but passes locally - can you find the root cause?",
+    "should_trigger": false
+  },
+  {
+    "query": "explain in plain business language what the cypress e2e in tests/checkout.spec.ts actually validates - need it for a stakeholder readout",
+    "should_trigger": false
+  },
+  {
+    "query": "review my UI code for design system drift - tokens, spacing, typography compliance against our DESIGN.md",
+    "should_trigger": false
+  }
+]
