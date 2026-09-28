@@ -222,7 +222,7 @@ All three support `--json` for machine-readable output.
 
 ## Memory Model
 
-Runtime-only. The skill does not persist anything across invocations. The strategy artifacts it writes are project-local and managed by the caller. If cross-project policy is needed (e.g., "team always uses Playwright over Cypress"), surface it via an external shared-memory skill — do not embed it here.
+Runtime-only. The skill does not persist anything across invocations. The strategy artifacts it writes are project-local and managed by the caller. If cross-project policy is needed (e.g., "team always uses Playwright over Cypress"), keep it in the agent's own memory (for example CLAUDE.md or AGENTS.md) — do not embed it here.
 
 ## Quality Checks
 
